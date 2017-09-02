@@ -1,3 +1,17 @@
+# FCM notifications functions
+def sendToTopic(topic, title, message, data):
+        payload = {'to': '/topics/'+topic, 'notification': { 'title': title, 'body': message}, 'data': data}
+        headers = {'Authorization': 'key='+ server_key}
+        res = requests.post('https://fcm.googleapis.com/fcm/send', json=payload, headers=headers)
+        return res.text
+
+def sendToDevice(device, title, message, data):
+        payload = {'to': device, 'notification': { 'title': title, 'body': message}, 'data': data}
+        headers = {'Authorization': 'key='+ server_key}
+        res = requests.post('https://fcm.googleapis.com/fcm/send', json=payload, headers=headers)
+        return res.text
+
+
 if __name__ == '__main__':
     from apscheduler.schedulers.blocking import BlockingScheduler
     sched = BlockingScheduler()
@@ -6,8 +20,9 @@ if __name__ == '__main__':
 # CRON key registered on Firebase Functions server.
 F = open('cron.key.txt','r')
 cron_key = F.read()
-
-sched = BlockingScheduler()
+# Server key of Firebase
+f = open('server.key.txt','r')
+server_key = f.read()
 
 @sched.scheduled_job('interval', minutes=2)
 def timed_job():
@@ -24,19 +39,3 @@ def scheduled_job():
 
 sched.start()
 
-# Server key of Firebase
-f = open('server.key.txt','r')
-server_key = f.read()
-
-# FCM notifications functions
-def sendToTopic(topic, title, message, data):
-        payload = {'to': '/topics/'+topic, 'notification': { 'title': title, 'body': message}, 'data': data}
-        headers = {'Authorization': 'key='+ server_key}
-        res = requests.post('https://fcm.googleapis.com/fcm/send', json=payload, headers=headers)
-        return res.text
-
-def sendToDevice(device, title, message, data):
-        payload = {'to': device, 'notification': { 'title': title, 'body': message}, 'data': data}
-        headers = {'Authorization': 'key='+ server_key}
-        res = requests.post('https://fcm.googleapis.com/fcm/send', json=payload, headers=headers)
-        return res.text
