@@ -24,9 +24,13 @@ cron_key = F.read()
 f = open('server.key.txt','r')
 server_key = f.read()
 
-@sched.scheduled_job('interval', minutes=2)
+@sched.scheduled_job('interval', minutes=3)
 def timed_job():
     print('This job is run every three minutes.')
+        # Run the http request
+    payload={'key': cron_key, 'rid': 0}
+    res = requests.get('http://localhost:5000/unespru/us-central1/test', params=payload)
+    print(res.text)
 
 @sched.scheduled_job('cron', day_of_week='mon-fri', hour=13)
 def scheduled_job():
@@ -35,7 +39,6 @@ def scheduled_job():
     payload={'key': cron_key, 'rid': 0}
     res = requests.get('http://localhost:5000/unespru/us-central1/queueCleanup', params=payload)
     print(res.text)
-    
 
 sched.start()
 
