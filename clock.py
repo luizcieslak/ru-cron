@@ -11,7 +11,7 @@ cron_key = F.read()
 def timed_job():
     print('This job is run every three minutes.')
     # Run the http request
-    res = requests.get('https://us-central1-unespru.cloudfunctions.net/test', params=payload)
+    res = requests.get('https://us-central1-unespru.cloudfunctions.net/test')
     print(res.text)
 
 @sched.scheduled_job('cron', day_of_week='mon-fri', hour=13)
