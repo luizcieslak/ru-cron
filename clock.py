@@ -19,7 +19,7 @@ def scheduled_job():
     print('This job is run every weekday at 1pm.')
     # Run the http request
     payload={'key': cron_key, 'rid': 0}
-    res = requests.get('https://us-central1-unespru.cloudfunctions.net/queueCleanup', json=payload)
+    res = requests.get('https://us-central1-unespru.cloudfunctions.net/queueCleanup', params=payload)
     print(res.text)
 
 @sched.scheduled_job('cron', day_of_week='mon-fri', hour=10)
@@ -27,7 +27,7 @@ def scheduled_job():
     print('This job is run every weekday at 10am.')
     # Run the http request
     payload={'key': cron_key}
-    res = requests.get('https://us-central1-unespru.cloudfunctions.net/oneHourBefore', json=payload)
+    res = requests.get('https://us-central1-unespru.cloudfunctions.net/oneHourBefore', params=payload)
     print(res.text)
 sched.start()
 
