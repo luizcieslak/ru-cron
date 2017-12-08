@@ -14,7 +14,7 @@ cron_key = F.read()
     # res = requests.get('https://us-central1-unespru.cloudfunctions.net/test')
     # print(res.text)
 
-@sched.scheduled_job('cron', day_of_week='mon-fri', hour=13)
+@sched.scheduled_job('cron', day_of_week='mon-fri', hour=15)
 def scheduled_job():
     print('This job is run every weekday at 1pm.')
     # Run the http request
@@ -22,7 +22,7 @@ def scheduled_job():
     res = requests.get('https://us-central1-unespru.cloudfunctions.net/queueCleanup', params=payload)
     print(res.text)
 
-@sched.scheduled_job('cron', day_of_week='mon-fri', hour=10)
+@sched.scheduled_job('cron', day_of_week='mon-fri', hour=12)
 def scheduled_job():
     print('This job is run every weekday at 10am.')
     # Run the http request
